@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>Advertisements</title>
+    <meta charset="UTF-8">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="scripts2.js"></script>
+      <style>
+        .btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form id="searchForm">
+        <label for="searchInput">Buscar por ID:</label>
+        <input type="text" id="searchInput" name="searchInput">
+        <button type="submit">Buscar</button>
+      </form>      
+    <div align="center">
+        <h1>Anuncios disponibles:</h1>
+        <button id =publishads class="btn" type="button">Agregar anuncio</button>
+        <div id="showads">
+            <table id="adTable">
+                <colgroup>
+                    <col style="width:20%">
+                    <col style="width:20%">
+                    <col style="width:20%">
+                    <col style="width:20%">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th style="text-align: left;">Id del anuncio</th>
+                        <th style="text-align: left;">Nombre</th>
+                        <th style="text-align: left;">Autor</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+        </body>
+        </html>

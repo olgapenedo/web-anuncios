@@ -19,7 +19,7 @@ $(document).ready(function() {
             if (data.comments) {
                 console.log(data.comments);
                 for (var i = 0; i < data.comments.length; i++) {
-                    $('#adComments').append($('<li>').text('Comentario ' + (i+1) + ': ' + data.comments[i]));
+                    $('#adComments').append($('<li>').text('Usuario: ' + data.comments[i].userId + ', Comentario: ' + data.comments[i].comment));
                 }
             } else {
                 $('#adComments').append($('<li>').text('No hay comentarios.'));
@@ -33,9 +33,9 @@ $(document).ready(function() {
     var adId = getUrlParameter('adId');
     var inputData = {
         "adId":adId,
-         "comments":$('#comment').val()
+         "comment":$('#comment').val(),
+         "userId":$('#userId').val()
         };
-        console.log(inputData);
     $.ajax({
             url: API_ENDPOINT+"/advertisements/"+adId,
             type: 'POST',
@@ -44,6 +44,7 @@ $(document).ready(function() {
             success: function (response) {
                 $('#commentSaved').show().text("Comentario publicado.");
                 $('#comment').val('');
+                $('#userId').val('');
                 $('#adComments').empty();
                 $('#adName, #adAuthor, #adDescription').empty();
                 addcomment.style.display = "none";
@@ -54,15 +55,13 @@ $(document).ready(function() {
                     contentType: 'application/json; charset=utf-8',
                     success: function (response) {
                         var data = response[0];
-                        console.log(response[0]);
                         $('#adName').text('Nombre del anuncio: ' + data.nameAd);
                         $('#adAuthor').text('Nombre del autor: ' + data.userId);
                         $('#adDescription').text('Descripción: ' + data.description);
             
                         if (data.comments) {
-                            console.log(data.comments);
                             for (var i = 0; i < data.comments.length; i++) {
-                                $('#adComments').append($('<li>').text('Comentario ' + (i+1) + ': ' + data.comments[i]));
+                                $('#adComments').append($('<li>').text('Usuario: ' + data.comments[i].userId + ', Comentario: ' + data.comments[i].comment));
                             }
                         } else {
                             $('#adComments').append($('<li>').text('No hay comentarios.'));

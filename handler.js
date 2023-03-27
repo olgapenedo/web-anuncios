@@ -103,38 +103,38 @@ module.exports.getAllAds = async (event, context) => {
 };
 
 module.exports.addComments = exports.handler = async (event, context) => {
-    try {
-        const { adId, comments } = JSON.parse(event.body);
-        console.log(comments);
-        const params = {
-            TableName: AD_TABLE,
-            Key: { adId }
-        };
-        const existingComment = await dynamoDb.get(params).promise();
-        const commentsArray = existingComment.Item?.comments ?? [];
+  try {
+      const { adId, userId, comment } = JSON.parse(event.body); // se agregó userId y comment
+      const params = {
+          TableName: AD_TABLE,
+          Key: { adId }
+      };
+      const existingComment = await dynamoDb.get(params).promise();
+      const commentsArray = existingComment.Item?.comments ?? [];
 
-        commentsArray.push(comments);
-        
-        const updateParams = {
-            TableName: AD_TABLE,
-            Key: { adId },
-            UpdateExpression: 'SET comments = :c',
-            ExpressionAttributeValues: { ':c': commentsArray }
-        };
-        await dynamoDb.update(updateParams).promise();
+      commentsArray.push({ userId, comment }); // se agrega el objeto con el userId y el comentario
+      
+      const updateParams = {
+          TableName: AD_TABLE,
+          Key: { adId },
+          UpdateExpression: 'SET comments = :c',
+          ExpressionAttributeValues: { ':c': commentsArray }
+      };
+      await dynamoDb.update(updateParams).promise();
 
-        return {
-            statusCode: 200, headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Credentials': true,
-            },
-            body: JSON.stringify({ message: 'Comentario agregado correctamente' })
-        };
-    } catch (error) {
-        console.log(error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ message: 'Error al agregar el comentario' })
-        };
-    }
+      return {
+          statusCode: 200, headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true,
+          },
+          body: JSON.stringify({ message: 'Comentario agregado correctamente' })
+      };
+  } catch (error) {
+      console.log(error);
+      return {
+          statusCode: 500,
+          body: JSON.stringify({ message: 'Error al agregar el comentario' })
+      };
+  }
 };
+

@@ -102,9 +102,9 @@ module.exports.getAllAds = async (event, context) => {
   }
 };
 
-module.exports.addComments = exports.handler = async (event, context) => {
+module.exports.addComments = async (event, context) => {
   try {
-      const { adId, userId, comment } = JSON.parse(event.body); // se agregó userId y comment
+      const { adId, userId, comment } = JSON.parse(event.body); 
       const params = {
           TableName: AD_TABLE,
           Key: { adId }
@@ -112,7 +112,7 @@ module.exports.addComments = exports.handler = async (event, context) => {
       const existingComment = await dynamoDb.get(params).promise();
       const commentsArray = existingComment.Item?.comments ?? [];
 
-      commentsArray.push({ userId, comment }); // se agrega el objeto con el userId y el comentario
+      commentsArray.push({ userId, comment }); 
       
       const updateParams = {
           TableName: AD_TABLE,
